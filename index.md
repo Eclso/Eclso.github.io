@@ -1,4 +1,4 @@
-<br>
+
 <section class="hero">
     <div class="content">
         <div class="image-cropper">
