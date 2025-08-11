@@ -21,7 +21,7 @@ linkedin_username: "alan-wesley-637b41289"
 theme: "minima"
 
 rss: rss
-
+url: https://eclso.github.io/
 kramdown:
   syntax_highlighter_opts:
     disable: true
