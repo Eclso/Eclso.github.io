@@ -31,7 +31,7 @@ Thats all. I gave up and was eagerly waiting for the answers and when i looked a
 
 ---
 ### Intended approach
-The vulnerability exists in how the tasks are padded in .ejs templete if the note has length greater than 500  
+An odd feature exists in how the tasks are padded in .ejs templete if the note has length greater than 500  
 
 ```ejs
 <table>
