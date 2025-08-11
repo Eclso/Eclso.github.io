@@ -43,3 +43,19 @@ hr {
   font-size: 2.5em;
   opacity: 0.3;
 }
+.image-cropper {
+    width: 100px;
+    height: 100px;
+    position: relative;
+    border: 2px solid white;
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    border-radius: 50px;
+    overflow:hidden;
+}
+.my-picture {
+    display: block;
+    margin: 0 auto;
+    height: auto;
+    width: 100%;
+}
