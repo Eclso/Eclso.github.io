@@ -7,7 +7,6 @@
     </div>
 </section>
 <br>
-<h6>(A.K.A) K3yz3r_Soz3</h6>
 <br>
 <h3> A crazy person who gets super excited when it comes to <p style="color:brown">Breaking and learning things.</p></h3>
 
