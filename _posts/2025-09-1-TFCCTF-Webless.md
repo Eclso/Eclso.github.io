@@ -27,6 +27,7 @@ But the attack seems unclear.. how can we take advantage of a user(bot) that is 
  3. since the iframe and the new tab is SOP iframe can read the content of the new tab.
  4. we use a webhook to get the flag 
  5. END
+
 ## Conclusion
 Really cool technique.. took a shower to figure it out myself tho. Felt really good to solve this one. This technique made me go wtff and i thought why not share it. Bye Byee! xxx0xxxx
 ## Solution
