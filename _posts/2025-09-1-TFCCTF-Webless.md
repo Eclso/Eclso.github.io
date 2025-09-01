@@ -2,7 +2,7 @@
 
 
 ## Challenge Description
-![](../images/untitled-1_20250901140257001.png)
+![](/images/untitled-1_20250901140257001.png)
 
 This is basically a notes app where we can post our notes and it is a session based app. You can toggle your note to be hidden that are only visible to us (not relevent). There is a bot that submits the flag into its session and opens a new window with attacker controlled URL. So it is a client side challenge. Can we find a xss 😺pspss? 
 ## Finding bugs
@@ -10,11 +10,11 @@ i assumed that we are dealing with xs-leak (idk why i thought that). But my assu
   
 But during the process..  i thought how the `<>` and` "` are not being encoded.. example.. \<h1\> are working fine. i went into more digging and found this
  
- ![](../images/untitled-1_20250901141903345.png)
+ ![](/images/untitled-1_20250901141903345.png)
  
 In this line `<div id="description">{{ post.description | safe }}</div>` the `safe` lets us embed those html characters without being encoded. And i looked even more into the html pages to find this in the invalid.html 
 
- ![](../images/untitled-1_20250901142211713.png)
+ ![](/images/untitled-1_20250901142211713.png)
  
  so.. a failed login with username `<script\>alert(1)` works.. Ha. Bugg 👾
 ## Attack plan
@@ -49,5 +49,5 @@ Really cool technique.. took a shower to figure it out myself tho. Felt really g
     <!-- <script>setTimeout(()=>{window.reportReady = true;},9000);</script> -->
 ```
 #### Flag
-![](../images/untitled-1_20250901144359744.png)
+![](/images/untitled-1_20250901144359744.png)
 `TFCCTF{1_h4v3_n0_f1ag_ideas_i_hope_you_liked_it_9102}`
