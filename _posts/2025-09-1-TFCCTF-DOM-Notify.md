@@ -131,7 +131,7 @@ app.listen(PORT, () => {
 });
 ```
 
-3. Making sure we can control the value injected in eval using the following PoC
+3.Making sure we can control the value injected in eval using the following PoC
    
 ```html
 <a id="custom_elements">
@@ -147,8 +147,8 @@ app.listen(PORT, () => {
 
 ![](/images/dm6.png)
 
-4. sasadsa!!! Now replace it with `');alert(1);//`
-5. dOne
+4.sasadsa!!! Now replace it with `');alert(1);//`
+5.dOne
 
 ![](/images/dm7.png)
 
