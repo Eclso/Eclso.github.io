@@ -1,7 +1,7 @@
 ## TFC CTF 2025 writeup - DOM Notify
 
 ## Challenge Description
-![](dm1.png)
+![](/images/dm1.png)
 
 we are given this a simple note app again where we can insert our content and see the notes.. and this app is not session maintained. The input we give is sanitized using the DOM Purify with the config options below
 ```js
@@ -82,21 +82,22 @@ Straight forward we see the DOM Clobbering bugs👾 that helps us enable the fea
 Now the important part.. what custom-element and observed attribute can be set... ? 
 
 Turns out Dom Purify allows certain set of attributes even though a whitelist config is given. Here is an example
-![](dm2.png)
 
-![](dm3.png)
+![](/images/dm2.png)
+
+![](/images/dm3.png)
 
 But the DOM Purify strips the value of is attribute.. here is where this line in utils.js comes to rescue..  `content = content.replace(/""/g, 'invalid-value');`
 
 See how the is attribute's value is changed...
 
-![](dm4.png)
+![](/images/dm4.png)
 
-![](dm5.png)
+![](/images/dm5.png)
 
 And the DOM Purify also allows `aria-label` attribute without stripping the value... i also read the documentation of `customElements.define` 
 
-![](dm9.png)
+![](/images/dm9.png)
 
 So we dont have to go through the suffering of making the value of observed attribute changing.. just initialzing is enough.. 😫 And eval is an obvious one. We can inject js into the eval to trigger xss👾.
 
@@ -140,11 +141,13 @@ app.listen(PORT, () => {
 <div is="" aria-label="sasadsa"></div>
 
 ```
-![](dm6.png)
+
+![](/images/dm6.png)
 
 6. sasadsa!!! Now replace it with `');alert(1);//`
 7. dOne
-![](dm7.png)
+
+![](/images/dm7.png)
 
 
 ## Solution
@@ -164,6 +167,6 @@ app.listen(PORT, () => {
 Had so much solving it.... easy one tho. If you are not clear about Dom clobbering a url value.. check out portswigger DOM clobbering lessons.. and if anything else email me.
 
 ## Flag
-![](dm8.png)
+![](/images/dm8.png)
 
 `TFCCTF{t0_1s_0r_n0t_to_1s}`
