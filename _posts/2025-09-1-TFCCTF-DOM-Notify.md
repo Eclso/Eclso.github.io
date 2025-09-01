@@ -71,7 +71,7 @@ the javascript fetches a JSON from an endpoint and the JSON contains a set of cu
 For example.. an element `fancy-div` is defined and extended to div... so one can use the `<div is=fancy-div>` to inherit the features of fancy div....
 
 And here the special features of the custom elements are that it puts attribute name(not value) that includes `-` into its observed attributes list and where the attribute value is changed the following line is triggered
-```
+```js
 eval(`console.log('Old value: ${oldValue}', 'New Value: ${newValue}')`)
 ```
 But the whole feature seems to be disabled. 
@@ -105,7 +105,8 @@ So we dont have to go through the suffering of making the value of observed attr
 
 1. We Clobber the value of `window.custom_elements.enabled`  and `window.custom_elements.endpoint`  with a server controlled by attacker. 
 2. we create the server that returns the JSON `{ name: 'invalid-value', observedAttribute: 'aria-label' }` making sure it has header `Access-Control-Allow-Origin` with `*`
-```
+
+```js
 const express = require('express');
 const app = express();
 const PORT = 3838;
@@ -129,8 +130,10 @@ app.listen(PORT, () => {
   console.log(`Server is running at http://localhost:${PORT}`);
 });
 ```
+
 3. Making sure we can control the value injected in eval using the following PoC
-```
+   
+```html
 <a id="custom_elements">
 
 
@@ -152,7 +155,7 @@ app.listen(PORT, () => {
 
 ## Solution
 
-```
+```html
 <a id="custom_elements">
 
 
