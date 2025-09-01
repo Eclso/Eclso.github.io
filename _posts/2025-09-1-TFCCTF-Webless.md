@@ -16,7 +16,7 @@ In this line `<div id="description">{{ post.description | safe }}</div>` the `sa
 
  ![](/images/untitled-1_20250901142211713.png)
  
- so.. a failed login with username `<script\>alert(1)` works.. Ha. Bugg 👾
+ so.. a failed login with username `<script>alert(1)</script>` works.. Ha. Bugg 👾
 ## Attack plan
 But the attack seems unclear.. how can we take advantage of a user(bot) that is already logged in.. can we make the user access the invalid page and again the post/0 page without manual login??  yess we can!  
   
