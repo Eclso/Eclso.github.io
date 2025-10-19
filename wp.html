@@ -57,45 +57,45 @@
     <!-- ✅ Popular Markdown library -->
 
     <script>
-      async function loadSignature() {
-        try {
-          const res = await fetch('name.html');
-          const html = await res.text();
+async function loadSignature() {
+  try {
+    const res = await fetch('name.html');
+    const html = await res.text();
 
-          const temp = document.createElement('div');
-          temp.innerHTML = html;
+    const temp = document.createElement('div');
+    temp.innerHTML = html;
 
-          // Inject <style> from name.html
-          const styles = temp.querySelectorAll('style');
-          styles.forEach(style => {
-            const newStyle = document.createElement('style');
-            newStyle.textContent = style.textContent;
-            document.head.appendChild(newStyle);
-          });
+    // Inject styles from name.html
+    const styles = temp.querySelectorAll('style');
+    styles.forEach(style => {
+      const newStyle = document.createElement('style');
+      newStyle.textContent = style.textContent;
+      document.head.appendChild(newStyle);
+    });
 
-          // Inject the container
-          const container = temp.querySelector('#container');
-          if (container) {
-            container.style.fontSize = '48px'; // make it visibly large
-            container.style.marginBottom = '40px';
-            container.style.display = 'flex';
-            container.style.alignItems = 'baseline';
-            document.getElementById('signature').appendChild(container);
-          }
+    // Extract and insert the container
+    const container = temp.querySelector('#container');
+    if (container) {
+      container.style.fontSize = '48px';
+      container.style.marginBottom = '40px';
+      document.getElementById('signature').appendChild(container);
+    }
 
-          // Execute scripts from name.html
-          const scripts = temp.querySelectorAll('script');
-          for (const oldScript of scripts) {
-            const newScript = document.createElement('script');
-            if (oldScript.src) newScript.src = oldScript.src;
-            else newScript.textContent = oldScript.textContent;
-            document.body.appendChild(newScript);
-          }
-        } catch (err) {
-          console.error("Couldn't load name.html", err);
-        }
-      }
-
+    // Delay script execution until container exists
+    const scripts = temp.querySelectorAll('script');
+    for (const oldScript of scripts) {
+      const newScript = document.createElement('script');
+      newScript.textContent = `
+        window.addEventListener('load', async () => {
+          ${oldScript.textContent}
+        });
+      `;
+      document.body.appendChild(newScript);
+    }
+  } catch (err) {
+    console.error("Couldn't load name.html", err);
+  }
+}
       async function loadMarkdown() {
         const params = new URLSearchParams(location.search);
         const file = params.get('file') || 'post.md'; // default file
