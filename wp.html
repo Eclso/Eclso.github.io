@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Writeup</title>
+    <style>
+      body {
+        font-family: monospace;
+        font-size: 16px;
+        margin: 40px;
+        color: black;
+      }
+
+      #signature {
+        margin-bottom: 40px;
+      }
+
+      #content {
+        line-height: 1.6;
+        max-width: 800px;
+        white-space: normal;
+      }
+
+      #content h1, #content h2, #content h3 {
+        margin-top: 24px;
+        margin-bottom: 8px;
+      }
+
+      #content code {
+        background: #f5f5f5;
+        padding: 2px 4px;
+        border-radius: 4px;
+      }
+
+      #content pre {
+        background: #f5f5f5;
+        padding: 10px;
+        border-radius: 6px;
+        overflow-x: auto;
+      }
+
+      #content a {
+        color: #0077cc;
+        text-decoration: none;
+      }
+
+      #content a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="signature"></div>
+    <div id="content">Loading writeup...</div>
+
+    <!-- ✅ Popular Markdown library -->
+
+    <script>
+      async function loadSignature() {
+        try {
+          const res = await fetch('name.html');
+          const html = await res.text();
+
+          const temp = document.createElement('div');
+          temp.innerHTML = html;
+
+          // Inject <style> from name.html
+          const styles = temp.querySelectorAll('style');
+          styles.forEach(style => {
+            const newStyle = document.createElement('style');
+            newStyle.textContent = style.textContent;
+            document.head.appendChild(newStyle);
+          });
+
+          // Inject the container
+          const container = temp.querySelector('#container');
+          if (container) {
+            container.style.fontSize = '48px'; // make it visibly large
+            container.style.marginBottom = '40px';
+            container.style.display = 'flex';
+            container.style.alignItems = 'baseline';
+            document.getElementById('signature').appendChild(container);
+          }
+
+          // Execute scripts from name.html
+          const scripts = temp.querySelectorAll('script');
+          for (const oldScript of scripts) {
+            const newScript = document.createElement('script');
+            if (oldScript.src) newScript.src = oldScript.src;
+            else newScript.textContent = oldScript.textContent;
+            document.body.appendChild(newScript);
+          }
+        } catch (err) {
+          console.error("Couldn't load name.html", err);
+        }
+      }
+
+      async function loadMarkdown() {
+        const params = new URLSearchParams(location.search);
+        const file = params.get('file') || 'post.md'; // default file
+        try {
+          const res = await fetch(file);
+          const text = await res.text();
+          document.getElementById('content').innerHTML = marked.parse(text);
+        } catch {
+          document.getElementById('content').textContent = 'Error loading markdown file.';
+        }
+      }
+
+      loadSignature();
+      loadMarkdown();
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  </body>
+</html>

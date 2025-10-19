@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About</title>
+    <style>
+      body {
+        font-family: monospace;
+        font-size: 16px;
+        margin: 20px;
+        color: black;
+      }
+      #typing-container {
+        display: flex;
+        align-items: baseline;
+        margin-bottom: 20px;
+        font-size: 48px; /* larger size for animation */
+      }
+      .caret {
+        display: inline-block;
+        width: 14px;
+        height: 48px;
+        background: black;
+        margin-left: 2px;
+        animation: blink 1s steps(1, start) infinite;
+      }
+      @keyframes blink {
+        50% { visibility: hidden; }
+      }
+      pre a { color: #0077cc; text-decoration: none; }
+      pre a:hover { text-decoration: underline; }
+      .link-row { display: flex; gap: 8px; }
+      .link-row i { width: 100px; } /* aligns all dates */
+
+      .letter {
+        opacity: 0;
+        display: inline-block;
+        transition: opacity 0.15s ease-in;
+      }
+      pre.menu {
+        cursor: pointer;
+        user-select: none;
+        font-size: 16px;
+      }
+      pre.menu a {
+         color: #0077cc;
+        text-decoration: underline;
+        margin-right: 12px;
+        
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Typing animation -->
+    <div id="typing-container">
+      <div id="typed-text"></div>
+      <div class="caret"></div>
+    </div>
+
+    <!-- ASCII Menu -->
+    <pre class="menu" onclick="window.location.replace('/')">
+<a href="/">index</a>  <a href="/about.html">about</a>
+
+    <script>
+      const textEl = document.getElementById('typed-text');
+      const second = "Alan Wesley"; // includes space
+      const first = "Ecls0";
+
+      async function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
+
+      async function typeSmooth(text, delay){
+        for (let c of text){
+          const span = document.createElement('span');
+          span.textContent = (c === ' ') ? '\u00A0' : c; // preserve space
+          span.classList.add('letter');
+          textEl.appendChild(span);
+          requestAnimationFrame(()=> span.style.opacity = 1);
+          await sleep(delay + Math.random() * 80);
+        }
+      }
+
+      async function deleteSmooth(delay){
+        while (textEl.lastChild){
+          const span = textEl.lastChild;
+          span.style.opacity = 0;
+          await sleep(delay);
+          span.remove();
+        }
+      }
+
+      async function runTypingAnimation(){
+        await typeSmooth(first, 180);
+        await sleep(10000); // wait 10s
+        await deleteSmooth(120);
+        await typeSmooth(second, 220);
+      }
+
+      runTypingAnimation();
+    </script>
+  </body>
+</html>
