@@ -58,44 +58,39 @@
 
     <script>
 async function loadSignature() {
-  try {
-    const res = await fetch('name.html');
-    const html = await res.text();
+        try {
+          const res = await fetch('name.html');
+          const html = await res.text();
 
-    const temp = document.createElement('div');
-    temp.innerHTML = html;
+          const temp = document.createElement('div');
+          temp.innerHTML = html;
 
-    // Inject styles from name.html
-    const styles = temp.querySelectorAll('style');
-    styles.forEach(style => {
-      const newStyle = document.createElement('style');
-      newStyle.textContent = style.textContent;
-      document.head.appendChild(newStyle);
-    });
+          // Inject <style> tags
+          temp.querySelectorAll('style').forEach(style => {
+            document.head.appendChild(style.cloneNode(true));
+          });
 
-    // Extract and insert the container
-    const container = temp.querySelector('#container');
-    if (container) {
-      container.style.fontSize = '48px';
-      container.style.marginBottom = '40px';
-      document.getElementById('signature').appendChild(container);
-    }
+          // Inject HTML animation container (typing-container)
+          const typingContainer = temp.querySelector('#typing-container');
+          const menu = temp.querySelector('.menu');
+          if (typingContainer) document.getElementById('signature').appendChild(typingContainer);
+          if (menu) document.getElementById('signature').appendChild(menu);
 
-    // Delay script execution until container exists
-    const scripts = temp.querySelectorAll('script');
-    for (const oldScript of scripts) {
-      const newScript = document.createElement('script');
-      newScript.textContent = `
-        window.addEventListener('load', async () => {
-          ${oldScript.textContent}
-        });
-      `;
-      document.body.appendChild(newScript);
-    }
-  } catch (err) {
-    console.error("Couldn't load name.html", err);
-  }
-}
+          // Ensure scripts execute after they’re in DOM
+          temp.querySelectorAll('script').forEach(oldScript => {
+            const newScript = document.createElement('script');
+            if (oldScript.src) {
+              newScript.src = oldScript.src;
+            } else {
+              newScript.textContent = oldScript.textContent;
+            }
+            document.body.appendChild(newScript);
+          });
+        } catch (err) {
+          console.error("Couldn't load name.html", err);
+        }
+      }
+
       async function loadMarkdown() {
         const params = new URLSearchParams(location.search);
         const file = params.get('file') || 'post.md'; // default file
