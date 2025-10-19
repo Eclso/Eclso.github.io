@@ -94,3 +94,21 @@
     </script>
 
 
+<script>
+function initTyping() {
+    const container = document.getElementById('typing-container');
+    const text = "Hello, I'm Alan Wesley!";
+    let i = 0;
+    const speed = 100;
+
+    function type() {
+        if (i < text.length) {
+            container.textContent += text[i];
+            i++;
+            setTimeout(type, speed);
+        }
+    }
+
+    type();
+}
+</script>

@@ -58,38 +58,33 @@
 
     <script>
 async function loadSignature() {
-        try {
-          const res = await fetch('name.html');
-          const html = await res.text();
+    try {
+        const res = await fetch('name.html');
+        const html = await res.text();
 
-          const temp = document.createElement('div');
-          temp.innerHTML = html;
+        const temp = document.createElement('div');
+        temp.innerHTML = html;
 
-          // Inject <style> tags
-          temp.querySelectorAll('style').forEach(style => {
-            document.head.appendChild(style.cloneNode(true));
-          });
+        // Inject HTML elements
+        const typingContainer = temp.querySelector('#typing-container');
+        if (typingContainer) document.getElementById('signature').appendChild(typingContainer);
 
-          // Inject HTML animation container (typing-container)
-          const typingContainer = temp.querySelector('#typing-container');
-          const menu = temp.querySelector('.menu');
-          if (typingContainer) document.getElementById('signature').appendChild(typingContainer);
-          if (menu) document.getElementById('signature').appendChild(menu);
-
-          // Ensure scripts execute after they’re in DOM
-          temp.querySelectorAll('script').forEach(oldScript => {
+        // Inject scripts
+        temp.querySelectorAll('script').forEach(oldScript => {
             const newScript = document.createElement('script');
-            if (oldScript.src) {
-              newScript.src = oldScript.src;
-            } else {
-              newScript.textContent = oldScript.textContent;
-            }
+            if (oldScript.src) newScript.src = oldScript.src;
+            else newScript.textContent = oldScript.textContent;
             document.body.appendChild(newScript);
-          });
-        } catch (err) {
-          console.error("Couldn't load name.html", err);
-        }
-      }
+        });
+
+        // Explicitly initialize typing
+        if (typeof initTyping === "function") initTyping();
+
+    } catch (err) {
+        console.error("Couldn't load name.html", err);
+    }
+}
+
 
       async function loadMarkdown() {
         const params = new URLSearchParams(location.search);
