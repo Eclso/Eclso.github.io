@@ -3,7 +3,7 @@
 Whomever reading this blog i want you to be familiar with the concept of **[bfcache](https://web.dev/articles/bfcache)**, **[sandboxed iframe](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/iframe#sandbox)** and **[iframe reparenting](https://blog.huli.tw/2024/09/07/en/idek-ctf-2024-iframe/#2-iframe-reparenting-and-bfcache)**
 
 Once you are familiar with the above concepts let's start by giving a minor detailing on the document definition of **Bfcache**
-
+## Definition of Bfcache
 this [document](https://web.dev/articles/bfcache#basics) says that, 
 > With back/forward cache (bfcache), instead of destroying a page when the user ***navigates away***, we postpone destruction and pause JS execution. If the user navigates back soon, we make the page visible again and unpause JS execution. This results in a near instant page navigation for the user.
 
@@ -90,7 +90,7 @@ CHECK IT OUT...!
 you might be weirded out by testing the second case..but we want to increase the history length from 2 to 3 with the iframe navigation in order to again navigate to the same url and back.
 
 This test proves that bfcache is only for ***different url navigation***. In the place of cross origin navigation button.. you can also put `https://dssphkqz.requestrepo.com/a`.. and observe that indeed the bfcache is working there.
-
+## Magic Magic....
 Now i will give you a magic recipe.. 
 
 1. Load the script 
