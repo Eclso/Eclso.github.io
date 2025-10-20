@@ -14,7 +14,7 @@ Whenever an user navigates to a url that is different from the previous one.. th
 Below is the script i used to test this quirk.
 CHECK IT OUT...!
 
-```htmlembedded=
+```html
 <!DOCTYPE html>
 <html>
 <body>
