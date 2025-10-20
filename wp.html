@@ -34,10 +34,40 @@
       }
 
       #content pre {
+        position: relative;
         background: #f5f5f5;
-        padding: 10px;
-        border-radius: 6px;
+        padding: 12px;
+        border-radius: 8px;
         overflow-x: auto;
+      }
+
+      #content pre code {
+        font-family: monospace;
+        font-size: 14px;
+      }
+
+      /* Copy button */
+      .copy-btn {
+        position: absolute;
+        top: 6px;
+        right: 6px;
+        font-size: 12px;
+        padding: 4px 8px;
+        border: none;
+        border-radius: 4px;
+        background: #0077cc;
+        color: white;
+        cursor: pointer;
+        opacity: 0;
+        transition: opacity 0.2s;
+      }
+
+      pre:hover .copy-btn {
+        opacity: 1;
+      }
+
+      .copy-btn:active {
+        background: #005fa3;
       }
 
       #content a {
@@ -49,59 +79,81 @@
         text-decoration: underline;
       }
     </style>
+    <!-- ✅ Highlight.js default theme -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css"
+    />
   </head>
+
   <body>
     <div id="signature"></div>
     <div id="content">Loading writeup...</div>
 
-    <!-- ✅ Popular Markdown library -->
+    <!-- ✅ Markdown + Highlight libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 
     <script>
-async function loadSignature() {
-    try {
-        const res = await fetch('name.html');
-        const html = await res.text();
+      async function loadSignature() {
+        try {
+          const res = await fetch("name.html");
+          const html = await res.text();
 
-        const temp = document.createElement('div');
-        temp.innerHTML = html;
+          const temp = document.createElement("div");
+          temp.innerHTML = html;
 
-        // Inject HTML elements
-        const typingContainer = temp.querySelector('#typing-container');
-        if (typingContainer) document.getElementById('signature').appendChild(typingContainer);
+          const typingContainer = temp.querySelector("#typing-container");
+          if (typingContainer)
+            document.getElementById("signature").appendChild(typingContainer);
 
-        // Inject scripts
-        temp.querySelectorAll('script').forEach(oldScript => {
-            const newScript = document.createElement('script');
+          temp.querySelectorAll("script").forEach((oldScript) => {
+            const newScript = document.createElement("script");
             if (oldScript.src) newScript.src = oldScript.src;
             else newScript.textContent = oldScript.textContent;
             document.body.appendChild(newScript);
-        });
+          });
 
-        // Explicitly initialize typing
-        if (typeof initTyping === "function") initTyping();
-
-    } catch (err) {
-        console.error("Couldn't load name.html", err);
-    }
-}
-
+          if (typeof initTyping === "function") initTyping();
+        } catch (err) {
+          console.error("Couldn't load name.html", err);
+        }
+      }
 
       async function loadMarkdown() {
         const params = new URLSearchParams(location.search);
-        const file = params.get('file') || 'post.md'; // default file
+        const file = params.get("file") || "post.md"; // default file
         try {
           const res = await fetch(file);
           const text = await res.text();
-          document.getElementById('content').innerHTML = marked.parse(text);
+          const html = marked.parse(text, {
+            highlight: function (code, lang) {
+              const validLang = hljs.getLanguage(lang) ? lang : "plaintext";
+              return hljs.highlight(code, { language: validLang }).value;
+            },
+          });
+          document.getElementById("content").innerHTML = html;
+
+          // Add copy buttons to code blocks
+          document.querySelectorAll("pre code").forEach((block) => {
+            const button = document.createElement("button");
+            button.className = "copy-btn";
+            button.textContent = "Copy";
+            button.addEventListener("click", async () => {
+              await navigator.clipboard.writeText(block.textContent);
+              button.textContent = "Copied!";
+              setTimeout(() => (button.textContent = "Copy"), 1500);
+            });
+            block.parentNode.appendChild(button);
+          });
         } catch {
-          document.getElementById('content').textContent = 'Error loading markdown file.';
+          document.getElementById("content").textContent =
+            "Error loading markdown file.";
         }
       }
 
       loadSignature();
       loadMarkdown();
     </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   </body>
 </html>
