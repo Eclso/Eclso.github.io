@@ -47,6 +47,13 @@
         font-family: monospace;
         font-size: 14px;
       }
+      #content pre::-webkit-scrollbar {
+  display: none;
+}
+#content pre {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+}
 
       /* Copy button */
       .copy-btn {
